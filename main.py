@@ -20,10 +20,27 @@ if __name__ == "__main__":
         print(lh,rh)
         
         try:
-            p1=lh[0]
-            p2=lh[1]
-            p3=lh[3]
-
+            p1=rh[0]
+            p2=rh[1]
+            p3=rh[3]
+            """
+            if lh is None and rh is not None:
+                p1=rh[0]
+                p2=rh[1]
+                p3=rh[3]
+            elif lh is not None and rh is None:
+                p1=lh[0]
+                p2=lh[1]
+                p3=lh[3]
+            elif lh is None and rh is None:
+                cv2.imshow("frame", frame)
+                cv2.waitKey(1)
+                continue
+            else:
+                cv2.imshow("frame", frame)
+                cv2.waitKey(1)
+                continue
+            """
             k1=(p2[1]-p1[1])/(p2[0]-p1[0])
             k2=(p3[1]-p2[1])/(p3[0]-p2[0])
             print(k1-k2)
@@ -42,8 +59,8 @@ if __name__ == "__main__":
                 cv2.putText(frame,"hand is not level.",(40, 80), cv2.FONT_HERSHEY_SIMPLEX,1, (0, 0, 255), 1, cv2.LINE_AA)
 
                 
-        except:
-            pass
+        except Exception as e:
+            print(e)
         
         cv2.imshow("frame", frame)
 

@@ -171,7 +171,7 @@ class OpenPose(object):
 
         return final_points
 
-    def draw_hand(self, image, one_person_points, thickness=2):
+    def draw_hand(self, image, one_person_points, thickness=2):#,hand="left"):
         self.lh=[]
         self.rh=[]
         for i, pair in enumerate(self.pairs):
@@ -184,16 +184,16 @@ class OpenPose(object):
             y2 = one_person_points[pair[1]][1]
             if x1 == -1 or y1 == -1 or x2 == -1 or y2 == -1:
                 continue
-            elif pair[0] in [2,3,4] and pair[1] in [2,3,4]:
+            elif pair[0] in [2,3,4] and pair[1] in [2,3,4]: #and hand=="left":
               #  print(pair)
                 cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)
                 self.lh.append([x1,y1])
                 self.lh.append([x2,y2])
-#            elif pair[0] in [5,6,7] and pair[1] in [5,6,7]:
-#              #  print(pair)
-#                cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)
-#                self.rh.append([x1,y1])
-#                self.rh.append([x2,y2])
+            elif pair[0] in [5,6,7] and pair[1] in [5,6,7]: #and hand=="right":
+              #  print(pair)
+                cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)
+                self.rh.append([x1,y1])
+                self.rh.append([x2,y2])
         return self.lh, self.rh
 
 
