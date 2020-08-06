@@ -197,3 +197,14 @@ class OpenPose(object):
         return self.lh, self.rh
 
 
+    def draw_whole_body(self, image, one_person_points, thickness=2):
+        for i, pair in enumerate(self.pairs):
+            x1 = one_person_points[pair[0]][0]
+            y1 = one_person_points[pair[0]][1]
+            x2 = one_person_points[pair[1]][0]
+            y2 = one_person_points[pair[1]][1]
+            if x1 == -1 or y1 == -1 or x2 == -1 or y2 == -1:
+                continue
+            cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)        
+
+

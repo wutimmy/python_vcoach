@@ -31,13 +31,19 @@ if __name__ == "__main__":
         lh=[]
         rh=[]
         success, frame = camera.read()
+        body_frame=frame.copy()
         if not success:
             continue
 
         people = pose.detect(frame, in_height=150)
+        people1 = pose.detect(body_frame, in_height=150)
         for person in people:
             lh,rh=pose.draw_hand(frame, person)
         print(lh,rh)
+        """
+        for person in people1:
+            lh,rh=pose.draw_hand(body_frame, person)
+        """
         
         try:
             exc_info = sys.exc_info()
@@ -55,6 +61,7 @@ if __name__ == "__main__":
                 print("No hands detected.")
                 cv2.putText(frame,"No hands detected.",(40, 160), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 0, 255), 2, cv2.LINE_AA)
                 cv2.imshow("frame", frame)
+                #cv2.imshow("body", body_frame)
                 key_code = cv2.waitKey(1)
                 if key_code in [27, ord('q')]:
                     break
@@ -79,6 +86,7 @@ if __name__ == "__main__":
             else:
                 print("else")
                 cv2.imshow("frame", frame)
+                #cv2.imshow("body", body_frame)
                 key_code = cv2.waitKey(1)
                 if key_code in [27, ord('q')]:
                     break
@@ -107,6 +115,7 @@ if __name__ == "__main__":
             print(traceback.format_exc())
         
         cv2.imshow("frame", frame)
+        #cv2.imshow("body", body_frame)
 
 
         key_code = cv2.waitKey(1)
