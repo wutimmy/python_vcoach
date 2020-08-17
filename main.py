@@ -53,12 +53,11 @@ if __name__ == "__main__":
         try:
             exc_info = sys.exc_info()
             
-            if bool(len(lh)) is False and bool(len(rh)) is True:
+            if bool(len(lh)) is False and bool(len(rh)) is True and len(rh) == 4:
                 right()
-                
-            elif bool(len(lh)) is True and bool(len(rh)) is False:
+            elif bool(len(lh)) is True and bool(len(rh)) is False and len(lh) == 4:
                 left()
-            elif bool(len(lh)) is False and bool(len(rh)) is False:
+            elif bool(len(lh)) is False and bool(len(rh)) is False and len(lh) == 0 and len(rh) == 0:
                 print("No hands detected.")
                 cv2.putText(frame,"No hands detected.",(40, 160), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 0, 255), 2, cv2.LINE_AA)
                 cv2.imshow("frame", frame)
@@ -68,7 +67,7 @@ if __name__ == "__main__":
                     break
                 else:
                     continue
-            elif bool(len(lh)) is True and bool(len(rh)) is True:
+            elif bool(len(lh)) is True and bool(len(rh)) is True and len(lh) != 0 and len(rh) != 0:
                 print("Both hands detected.")
                 #cv2.putText(frame,"Both hands detected. Testing...",(40, 180), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 0, 255), 2, cv2.LINE_AA)
                 
@@ -99,7 +98,7 @@ if __name__ == "__main__":
             
             
             
-            if abs(k1-k2) < 0.5:
+            if abs(k2-k1) < 0.5:
                 print("hand straight.")
                 cv2.putText(frame,"hand straight.",(40, 40), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 255, 255), 2, cv2.LINE_AA)
             else:
