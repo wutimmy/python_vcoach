@@ -84,13 +84,11 @@ if __name__ == "__main__":
 
 
             print("*************")
-            print(lineA)
-            print(lineB)
             ang_a = math.atan2(p3[1]-p2[1],p3[0]-p2[0])*180/math.pi
             ang_b = math.atan2(p2[1]-p1[1],p2[0]-p1[0])*180/math.pi
             ang = round(180 + ang_a - ang_b)
             print(ang)
-            cv2.putText(frame,str(ang),(40, 180), cv2.FONT_HERSHEY_SIMPLEX,1, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame,"Hand Angle : "+str(ang),(40, 180), cv2.FONT_HERSHEY_SIMPLEX,1, (0, 0, 255), 2, cv2.LINE_AA)
             print("*************")
             
             
