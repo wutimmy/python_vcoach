@@ -12,7 +12,11 @@ p3=[]
 
 
 def left():
+<<<<<<< HEAD
     global p1, p2, p3
+=======
+    global p1, p2, p3, lineA, lineB
+>>>>>>> 70bdee84ae47675745fa3bedf7fb2c3911eb74e6
     p1=lh[0]
     p2=lh[1]
     p3=lh[3]
@@ -22,7 +26,11 @@ def left():
     cv2.putText(frame,"Detected Left Hand.",(40, 120), cv2.FONT_HERSHEY_SIMPLEX,  1, (255, 0, 0), 2, cv2.LINE_AA)
 
 def right():
+<<<<<<< HEAD
     global p1, p2, p3
+=======
+    global p1, p2, p3, lineA, lineB
+>>>>>>> 70bdee84ae47675745fa3bedf7fb2c3911eb74e6
     p1=rh[0]
     p2=rh[1]
     p3=rh[3]
@@ -61,6 +69,10 @@ if __name__ == "__main__":
                 print("No hands detected.")
                 cv2.putText(frame,"No hands detected.",(40, 160), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 0, 255), 2, cv2.LINE_AA)
                 cv2.imshow("frame", frame)
+<<<<<<< HEAD
+=======
+                #cv2.imshow("body", body_frame)
+>>>>>>> 70bdee84ae47675745fa3bedf7fb2c3911eb74e6
                 key_code = cv2.waitKey(1)
                 if key_code in [27, ord('q')]:
                     break
@@ -68,6 +80,10 @@ if __name__ == "__main__":
                     continue
             elif bool(len(lh)) is True and bool(len(rh)) is True and len(lh) != 0 and len(rh) != 0:
                 print("Both hands detected.")
+<<<<<<< HEAD
+=======
+                #cv2.putText(frame,"Both hands detected. Testing...",(40, 180), cv2.FONT_HERSHEY_SIMPLEX,  1, (0, 0, 255), 2, cv2.LINE_AA)
+>>>>>>> 70bdee84ae47675745fa3bedf7fb2c3911eb74e6
                 
                 if lh[0][0] < rh[0][0] or lh[0][1] < rh[0][1]:
                     if lh[0][1] > rh[0][1]:
