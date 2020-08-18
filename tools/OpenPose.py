@@ -197,11 +197,7 @@ class OpenPose(object):
         return self.lh, self.rh
 
 
-<<<<<<< HEAD
-    def draw(self, image, one_person_points, thickness=2):
-=======
     def draw_whole_body(self, image, one_person_points, thickness=2):
->>>>>>> 70bdee84ae47675745fa3bedf7fb2c3911eb74e6
         for i, pair in enumerate(self.pairs):
             x1 = one_person_points[pair[0]][0]
             y1 = one_person_points[pair[0]][1]
