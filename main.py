@@ -1,4 +1,4 @@
-vimport cv2
+import cv2
 from tools.OpenPose import OpenPose
 import traceback
 import sys
