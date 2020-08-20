@@ -4,13 +4,40 @@ import math
 
 
 hands = False
-hand = ""
 right_ang = 0
 left_ang = 0
+ang_list = [[8,9,10],[11,12,13],[1,2,3],[1,5,6]]
+angs_list = []
+points = {}
 
-def stright(x1,y1,x2,y2,x3,):
-    k1=(p2[1]-p1[1])/(p2[0]-p1[0])
-    k2=(p3[1]-p2[1])/(p3[0]-p2[0])
+def stright(points):
+    kss = {}
+    for i in points.keys():
+        for j in points.keys():
+            if int(i) - int(j) == 1:
+                k=(points[i][1]-points[j][1])/(points[i][0]-points[j][0])
+                kss[i+j]=k
+            else:
+                continue
+    return kss
+
+def ca_ang(pgroup):
+    ang_c = math.atan2(points[str(pgroup[2])][1]-points[str(pgroup[1])][1],points[str(pgroup[2])][0]-points[str(pgroup[1])][0])*180/math.pi
+    ang_d = math.atan2(points[str(pgroup[1])][1]-points[str(pgroup[0])][1],points[str(pgroup[1])][0]-points[str(pgroup[0])][0])*180/math.pi
+    tang = round(180 + ang_c - ang_d)
+    if tang < 0:
+        tang = abs(tang)
+    else:
+        tang = 360 - tang
+    return tang
+
+
+def ca_all_ang(ang_list):
+    angs = []
+    for i in ang_list:
+        angs.append(ca_ang(i))
+    return angs
+    
 
 
 if __name__ == "__main__":
@@ -32,16 +59,14 @@ if __name__ == "__main__":
 
         if "2" in points.keys() and "3" in points.keys() and "4" in points.keys():
             hands = True
-            hand = "Left"
             ang_a = math.atan2(points["4"][1]-points["3"][1],points["4"][0]-points["3"][0])*180/math.pi
             ang_b = math.atan2(points["3"][1]-points["2"][1],points["3"][0]-points["2"][0])*180/math.pi
             left_ang = round(180 + ang_a - ang_b)
         else:
             ang = 0
-        cv2.putText(frame,"%s hand angle : %d"%(hand,left_ang),(20, 60), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame,"Left hand angle : %d"%(left_ang),(20, 60), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
         if "5" in points.keys() and "6" in points.keys() and "7" in points.keys():
             hands = True
-            hand = "Right"
             ang_a = math.atan2(points["7"][1]-points["6"][1],points["7"][0]-points["6"][0])*180/math.pi
             ang_b = math.atan2(points["6"][1]-points["5"][1],points["6"][0]-points["5"][0])*180/math.pi
             right_ang = round(180 + ang_a - ang_b)
@@ -51,11 +76,56 @@ if __name__ == "__main__":
                 right_ang = 360 - right_ang
         else:
             right_ang = 0
-        cv2.putText(frame,"%s hand angle : %d"%(hand,right_ang),(20, 40), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame,"Right hand angle : %d"%(right_ang),(20, 40), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
         if not hands:
             hands = False
             cv2.putText(frame,"No hands detected.",(20, 20), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
             print("No hands detected.")
+
+        ks = stright(points)
+        print(ks)
+
+        try:
+            if abs(ks["32"]-ks["43"]) < 0.5:
+                cv2.putText(frame,"Left hand straight.",(20, 80), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 255, 255), 2, cv2.LINE_AA)
+            else:
+                cv2.putText(frame,"Left hand is not straight.",(20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+        except:
+            pass
+        try:
+            if abs(ks["65"]-ks["76"]) < 0.5:
+                cv2.putText(frame,"Right hand straight.",(20, 100), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 255, 255), 2, cv2.LINE_AA)
+            else:
+                cv2.putText(frame,"Right hand is not straight.",(20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
+        except:
+            pass
+        
+        try:
+            if abs(ks["32"]) < 0.35 and abs(ks["43"]) < 0.35:
+                cv2.putText(frame,"Left hand is level.",(20, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+            else:
+                cv2.putText(frame,"Left hand is not level.",(20, 120), cv2.FONT_HERSHEY_SIMPLEX,0.5, (0, 0, 255), 2, cv2.LINE_AA)
+        
+        except:
+            pass
+
+        try:
+            if abs(ks["65"]) < 0.35 and abs(ks["76"]) < 0.35:
+                cv2.putText(frame,"Right hand is level.",(20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2, cv2.LINE_AA)
+            else:
+                cv2.putText(frame,"Right hand is not level.",(20, 120), cv2.FONT_HERSHEY_SIMPLEX,0.5, (0, 0, 255), 2, cv2.LINE_AA)
+        
+        except:
+            pass
+
+        try:
+            angs_list=ca_all_ang(ang_list)
+        except Exception as e:
+            print(e)
+
+        print("*"*20)
+        print(angs_list)
+            
 
         
 
