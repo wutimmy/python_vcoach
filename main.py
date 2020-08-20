@@ -6,7 +6,7 @@ import math
 hands = False
 right_ang = 0
 left_ang = 0
-ang_list = [[8,9,10],[11,12,13],[1,2,3],[1,5,6]]
+ang_list = [["8","9","10"],["11","12","13"],["1","2","3"],["1","5","6"],["1","8","9"],["1","11","12"]]
 angs_list = []
 points = {}
 
@@ -22,20 +22,26 @@ def stright(points):
     return kss
 
 def ca_ang(pgroup):
-    ang_c = math.atan2(points[str(pgroup[2])][1]-points[str(pgroup[1])][1],points[str(pgroup[2])][0]-points[str(pgroup[1])][0])*180/math.pi
-    ang_d = math.atan2(points[str(pgroup[1])][1]-points[str(pgroup[0])][1],points[str(pgroup[1])][0]-points[str(pgroup[0])][0])*180/math.pi
+    ang_c = math.atan2(points[pgroup[2]][1]-points[pgroup[1]][1],points[group[2]][0]-points[pgroup[1]][0])*180/math.pi
+    ang_d = math.atan2(points[pgroup[1]][1]-points[pgroup[0]][1],points[pgroup[1]][0]-points[pgroup[0]][0])*180/math.pi
     tang = round(180 + ang_c - ang_d)
+    """
     if tang < 0:
         tang = abs(tang)
     else:
         tang = 360 - tang
+    """
     return tang
 
 
 def ca_all_ang(ang_list):
-    angs = []
+    angs = {}
     for i in ang_list:
-        angs.append(ca_ang(i))
+        try:
+            angs["".join(i)] = ca_ang(i)
+        except Exception as e:
+            print(e)
+            continue
     return angs
     
 
@@ -53,7 +59,7 @@ if __name__ == "__main__":
         for person in people:
             points = pose.draw(frame, person)
 
-        print(points)
+        #print(points)
 
         hands = False
 
@@ -80,10 +86,10 @@ if __name__ == "__main__":
         if not hands:
             hands = False
             cv2.putText(frame,"No hands detected.",(20, 20), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 0, 255), 2, cv2.LINE_AA)
-            print("No hands detected.")
+            #print("No hands detected.")
 
         ks = stright(points)
-        print(ks)
+        #print(ks)
 
         try:
             if abs(ks["32"]-ks["43"]) < 0.5:
@@ -121,7 +127,8 @@ if __name__ == "__main__":
         try:
             angs_list=ca_all_ang(ang_list)
         except Exception as e:
-            print(e)
+            #print(e)
+            pass
 
         print("*"*20)
         print(angs_list)

@@ -199,7 +199,6 @@ class OpenPose(object):
                 ang_b = 0
             """
             
-            if pair[0] in [2,3,4,5,6,7] and pair[1] in [2,3,4,5,6,7]:
-                cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)
+            cv2.line(image, (x1, y1), (x2, y2), self.colors[i], thickness)
         return pair_points
 
