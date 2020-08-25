@@ -1,6 +1,7 @@
 import cv2
 from tools.OpenPose import OpenPose
 import math
+import traceback
 
 
 hands = False
@@ -22,26 +23,22 @@ def stright(points):
     return kss
 
 def ca_ang(pgroup):
-    ang_c = math.atan2(points[pgroup[2]][1]-points[pgroup[1]][1],points[group[2]][0]-points[pgroup[1]][0])*180/math.pi
-    ang_d = math.atan2(points[pgroup[1]][1]-points[pgroup[0]][1],points[pgroup[1]][0]-points[pgroup[0]][0])*180/math.pi
-    tang = round(180 + ang_c - ang_d)
-    """
-    if tang < 0:
-        tang = abs(tang)
+    if pgroup[0] in points.keys() and pgroup[1] in points.keys() and pgroup[2] in points.keys():
+        ang_c = math.atan2(points[pgroup[2]][1]-points[pgroup[1]][1],points[pgroup[2]][0]-points[pgroup[1]][0])*180/math.pi
+        ang_d = math.atan2(points[pgroup[1]][1]-points[pgroup[0]][1],points[pgroup[1]][0]-points[pgroup[0]][0])*180/math.pi
+        tang = round(180 + ang_c - ang_d)
+        return tang
     else:
-        tang = 360 - tang
-    """
-    return tang
+        return 0
 
 
 def ca_all_ang(ang_list):
     angs = {}
     for i in ang_list:
-        try:
-            angs["".join(i)] = ca_ang(i)
-        except Exception as e:
-            print(e)
+        if bool(ca_ang(i)) is False:
             continue
+        else:
+            angs["".join(i)] = ca_ang(i)
     return angs
     
 
@@ -130,12 +127,7 @@ if __name__ == "__main__":
             #print(e)
             pass
 
-        print("*"*20)
         print(angs_list)
-            
-
-        
-
         cv2.imshow("frame", frame)
         key_code = cv2.waitKey(1)
         if key_code in [27, ord('q')]:
