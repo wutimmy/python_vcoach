@@ -5,11 +5,31 @@ import traceback
 
 
 hands = False
+ans = True
 right_ang = 0
 left_ang = 0
 ang_list = [["8","9","10"],["11","12","13"],["1","2","3"],["1","5","6"],["1","8","9"],["1","11","12"]]
+left_body = ["156","11112","111213"]
+right_body = ["123","189","8910"]
+jud = ["80-100","150-170","140-160"]
 angs_list = []
 points = {}
+ds = "Left"
+left_stright = False
+right_stright = False
+passs = False
+
+def check_dict_keys(dict,target,hand="Left"):
+    global ans, ds
+    for i in dict.keys():
+        if i not in target:
+            ans = False
+            ds = ""
+            return ans
+        else:
+            ans = True
+    ds = hand
+    return ans
 
 def stright(points):
     kss = {}
@@ -90,15 +110,19 @@ if __name__ == "__main__":
 
         try:
             if abs(ks["32"]-ks["43"]) < 0.5:
+                left_stright = True
                 cv2.putText(frame,"Left hand straight.",(20, 80), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 255, 255), 2, cv2.LINE_AA)
             else:
+                left_stright = False
                 cv2.putText(frame,"Left hand is not straight.",(20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
         except:
             pass
         try:
             if abs(ks["65"]-ks["76"]) < 0.5:
+                right_stright = True
                 cv2.putText(frame,"Right hand straight.",(20, 100), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (0, 255, 255), 2, cv2.LINE_AA)
             else:
+                right_stright = False
                 cv2.putText(frame,"Right hand is not straight.",(20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
         except:
             pass
@@ -126,11 +150,33 @@ if __name__ == "__main__":
         except Exception as e:
             #print(e)
             pass
+        
+        if check_dict_keys(angs_list,left_body,hand="Left") or check_dict_keys(angs_list,right_body,hand="Right"):
+            if ds == "Left":
+                if left_stright:
+                    for i in range(len(jud)-1):
+                        if not passs:
+                            break
+                        if not jud[i].split("-")[0] <= angs_list[left_body[i]] <= jud[i].split("-")[1]:
+                            passs = False
+            elif ds == "Right":
+                if right_stright:
+                    for i in range(len(jud)-1):
+                        if not passs:
+                            break
+                        if not jud[i].split("-")[0] <= angs_list[right_body[i]] <= jud[i].split("-")[1]:
+                            passs = False
+            else:
+                passs = False
+        
+        print(passs)              
+
 
         print(angs_list)
         cv2.imshow("frame", frame)
         key_code = cv2.waitKey(1)
         if key_code in [27, ord('q')]:
             break
+    
     camera.release()
     cv2.destroyAllWindows()
