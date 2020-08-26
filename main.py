@@ -17,7 +17,7 @@ points = {}
 ds = "Left"
 left_stright = False
 right_stright = False
-passs = False
+passs = True
 
 def check_dict_keys(dict,target,hand="Left"):
     global ans, ds
@@ -152,22 +152,30 @@ if __name__ == "__main__":
             pass
         
         if check_dict_keys(angs_list,left_body,hand="Left") or check_dict_keys(angs_list,right_body,hand="Right"):
+            print("ok")
+            passs = True
             if ds == "Left":
                 if left_stright:
                     for i in range(len(jud)-1):
-                        if not passs:
-                            break
-                        if not jud[i].split("-")[0] <= angs_list[left_body[i]] <= jud[i].split("-")[1]:
+                        if not int(jud[i].split("-")[0]) <= angs_list[left_body[i]] <= int(jud[i].split("-")[1]):
                             passs = False
+                        else:
+                            passs = True
+                else:
+                    passs = False
             elif ds == "Right":
                 if right_stright:
                     for i in range(len(jud)-1):
-                        if not passs:
-                            break
-                        if not jud[i].split("-")[0] <= angs_list[right_body[i]] <= jud[i].split("-")[1]:
+                        if int(jud[i].split("-")[0]) <= angs_list[right_body[i]] <= int(jud[i].split("-")[1]):
+                            passs = True
+                        else:
                             passs = False
+                else:
+                    passs = False
             else:
                 passs = False
+        else:
+            passs = False
         
         print(passs)              
 
