@@ -2,6 +2,10 @@ import cv2
 from tools.OpenPose import OpenPose
 import math
 import traceback
+import os
+import glob
+
+os.system("sh -c 'cd ./img && rm *'")
 
 
 hands = False
@@ -18,6 +22,7 @@ ds = "Left"
 left_stright = False
 right_stright = False
 passs = True
+count = 0
 
 def check_dict_keys(dict,target,hand="Left"):
     global ans, ds
@@ -25,7 +30,7 @@ def check_dict_keys(dict,target,hand="Left"):
         if i not in target:
             ans = False
             ds = ""
-            return ans
+            break
         else:
             ans = True
     ds = hand
@@ -150,9 +155,16 @@ if __name__ == "__main__":
         except Exception as e:
             #print(e)
             pass
+
+        try:
+            if "123" 
         
+
+        
+        """
         if check_dict_keys(angs_list,left_body,hand="Left") or check_dict_keys(angs_list,right_body,hand="Right"):
             print("ok")
+            cv2.putText(frame,"data ok.",(20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2, cv2.LINE_AA)
             passs = True
             if ds == "Left":
                 if left_stright:
@@ -177,14 +189,21 @@ if __name__ == "__main__":
         else:
             passs = False
         
-        print(passs)              
+        print(passs)    
 
+        """          
 
+        count += 1
         print(angs_list)
         cv2.imshow("frame", frame)
         key_code = cv2.waitKey(1)
         if key_code in [27, ord('q')]:
             break
+
+        try:
+            cv2.imwrite(os.getcwd()+"/img/%d.jpg"%(count),frame)
+        except:
+            traceback.print_exc()
     
     camera.release()
     cv2.destroyAllWindows()
